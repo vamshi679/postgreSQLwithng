@@ -11,13 +11,13 @@ export class DataService {
 
   // http get request
   getData():Observable<any>{
-    console.log("fetching data...");
+    // console.log("fetching data...");
     return this.hc.get('/getalldata')
   }
 
   // http post request
   createData(data:any):Observable<any>{
-    console.log("form data sending...",data);
+    // console.log("form data sending...",data);
     return this.hc.post('/create',data);
   }
 }

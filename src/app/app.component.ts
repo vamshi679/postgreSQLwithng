@@ -9,27 +9,35 @@ import { DataService } from './data.service';
 export class AppComponent {
   title = 'postgresqlwithng';
 
-  array:any=[];
-  testingvariable:string='';
+  orderdata: any = [];
+  testingvariable: string = '';
 
-  constructor(private ds:DataService){
-    this.ds.getData().subscribe(res=>{
-      // this.array=res['obj']
-      this.testingvariable=res['message']
-      console.log(res['message']);
+  constructor(private ds: DataService) {
+    this.ds.getData().subscribe(res => {
+      if (res['result']) return this.orderdata = res['result'];
+      else return console.log(res['err'])
+      // this.testingvariable=res['message']
     })
   }
 
-  getData(){
-    this.ds.getData().subscribe(res=>{
-      console.log(res['message']);
+  public getData() {
+    this.ds.getData().subscribe(res => {
+      if (res['result']) return this.orderdata = res['result'];
+      else return console.log(res['err'])
     })
   }
 
-  submitData(formdata:any){
-    console.log(formdata);
-    this.ds.createData(formdata).subscribe(response=>{
-      alert(response['message'])
+  public submitData(formdata: any) {
+    let myString = parseFloat(formdata.totalvalue);
+    let myString1 = parseFloat(formdata.phone);
+    formdata.totalvalue = myString;
+    formdata.phone = myString1;
+    this.ds.createData(formdata).subscribe(response => {
+      if (response['message']) {
+        alert(response['message']);
+        return this.getData();
+      }
+      else return console.log(response['message'])
     })
   }
 
